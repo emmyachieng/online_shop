@@ -12,12 +12,16 @@ defmodule OnlineShopWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    scope "/", OnlineShopWeb do
+      post "/token", PageController, :index
+    end
   end
 
   scope "/", OnlineShopWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
