@@ -10,24 +10,32 @@ defmodule OnlineShopWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :authenticate_token do
+    plug(OnlineShopWeb.Plugs.AuthenticateToken)
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+  end
 
-    scope "/", OnlineShopWeb do
-      post "/token", PageController, :index
+  scope "/", OnlineShopWeb do
+    pipe_through :api
+
+    get "/token", MpesaController, :get_token
+
+    scope "/" do
+      pipe_through :authenticate_token
+
+      post "/registerurl", MpesaController, :customer_to_business
+      post "/transaction_status", MpesaController, :transaction_status
     end
   end
 
   scope "/", OnlineShopWeb do
     pipe_through :browser
 
-    # get "/", PageController, :index
+    get "/", PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", OnlineShopWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #
