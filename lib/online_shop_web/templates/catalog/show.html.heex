@@ -1,0 +1,22 @@
+<h1>Show Catalog</h1>
+
+<ul>
+  <li>
+    <strong>Name:</strong>
+    <%= @catalog.name %>
+  </li>
+
+  <li>
+    <strong>Image:</strong>
+    <img src="{@catalog.image}">
+  </li>
+  
+  <li>
+    <strong>Price:</strong>
+    <%= @catalog.price %>
+  </li>
+</ul>
+
+<span><%= link "Edit", to: Routes.catalog_path(@conn, :edit, @catalog) %></span> |
+<span><%= link "Back", to: Routes.catalog_path(@conn, :index) %></span>
+
